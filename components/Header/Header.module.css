@@ -1,5 +1,6 @@
 .header {
     height: 10vh;
     justify-content: center;
+    max-height: 70px;
+    min-height: 60px;
 }
-

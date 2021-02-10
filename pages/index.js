@@ -1,75 +1,164 @@
-import React, {useState} from 'react';
-import Container from '@material-ui/core/Container';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
-import ProTip from '../components/ProTip';
-import Link from '../components/Link';
-import Copyright from '../components/Copyright';
+import React, {useEffect, useState} from 'react';
+import ReplayIcon from '@material-ui/icons/Replay';
 import Header from "../components/Header/Header";
-import {FormControl, Grid} from "@material-ui/core";
+import {
+    FormControl,
+    Grid,
+    TableCell,
+    TableBody,
+    TableContainer,
+    TableRow,
+    TableHead,
+    Table,
+    Tab,
+    TablePagination, Select, InputLabel, makeStyles, MenuItem, Button,
+} from "@material-ui/core";
 import styles from "../styles/Home.module.css";
 import axios from "axios";
+import Head from "next/head";
+import Link from "next/link";
+
+const useStyle = makeStyles({
+    InputLabelRoot: {
+        color: '#FFF'
+    },
+    InputBaseRoot: {
+        color: '#FFF'
+    },
+    ButtonRootLabel: {
+        fontSize: '1.2em',
+    },
+});
+
+const endpointDealerInfo = './api/dealers/dealer_info';
+const endpointCity = './api/dealers/city';
+const endpointProvince = './api/dealers/province'
 
 export default function Index() {
-    const [provincesList, setProvincesList] = useState();
-    const [citiesList, setCitiesList] = useState();
-    const [dealersInformationList, setDealersInformationList] = useState();
+    const classes = useStyle()
+    const [provinces, setProvinces] = useState();
+    const [selectedProvince, setSelectedProvince] = useState()
+    const [selectedCity, setSelectedCity] = useState()
+    const [cities, setCities] = useState();
+    const [dealers, setDealers] = useState();
+    const [isLoading, setIsLoading] = useState(true)
 
-    async function getProvincesList(provinceId) {
-        const config = {
-            url:'./api/dealers/province',
-            params:{
-                provinceId
+    useEffect(() => {
+        const updateCity = axios(endpointCity)
+        const updateDealers = axios(endpointDealerInfo)
+        const updateProvinces = axios(endpointProvince)
+        axios.all([updateCity, updateDealers, updateProvinces]).then(response => {
+            //console.log('data', response[0].data)
+            setCities(response[0].data)
+            setDealers(response[1].data)
+            setProvinces(response[2].data)
+            setIsLoading(false)
+        })
+    }, [])
+
+    async function handleProvinceChange(e) {
+        const selectedValue = e.target.value
+        setSelectedCity(undefined)
+        setSelectedProvince(selectedValue)
+        const updateCity = axios(endpointCity, {
+            params: {
+                provinceId: selectedValue
             }
-        }
-        return await axios(config).then(response => {
-            console.log(response.data)
-            return response.data
+        })
+        const updateDealers = axios(endpointDealerInfo, {
+            params: {
+                provinceId: selectedValue
+            }
+        })
+        await axios.all([updateCity, updateDealers]).then(response => {
+            setCities(response[0].data)
+            setDealers(response[1].data)
+            //setIsLoading(false)
         })
     }
 
-    const provincesConfig = {
-        url: './api/dealers/province'
+    async function handleCityChange(e) {
+        const selectedValue = e.target.value
+        console.log(selectedValue)
+        setSelectedCity(selectedValue)
+        await axios(endpointDealerInfo, {
+            params: {
+                cityId: selectedValue
+            }
+        }).then(response => {
+            setDealers(response.data)
+        })
     }
 
-    return (
-        <Header>
-            <Grid item xs={2} className={styles.container}>
-                <img src={'/vercel.svg'} className={styles.logo}/>
-            </Grid>
-            <Grid item xs={3} className={styles.container}>
-                asdfasdf
-            </Grid>
-            <Grid item xs={3} className={styles.container}>
-                asdfasdf
-            </Grid>
-            <Grid item xs={4} className={styles.container}>
-                asdfasdf
-            </Grid>
-        </Header>
-    );
-}
-
-export async function getStaticProps() {
-    const getProvinces={
-        url: 'http://localhost:3000/api/dealers/province'
+    if (isLoading) {
+        return <div>Loading...</div>
+    } else {
+        return (
+            <>
+                <Head>
+                    <title>Title</title>
+                </Head>
+                <Header>
+                    <Grid item xs={2} className={styles.container}>
+                        <img src={'/vercel.svg'} className={styles.logo}/>
+                    </Grid>
+                    <Grid item xs={3} className={styles.container}>
+                        <FormControl className={styles.form}>
+                            <InputLabel classes={{root: classes.InputLabelRoot}}
+                                        id={'province-label'}>请选择省份</InputLabel>
+                            <Select value={selectedProvince ? selectedProvince : provinces[0].id}
+                                    classes={{root: classes.InputBaseRoot}} labelId={'province'}
+                                    onChange={handleProvinceChange}>
+                                {provinces.map(({id, province}) => (
+                                    <MenuItem key={id} value={id}>{province}</MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                    </Grid>
+                    <Grid item xs={3} className={styles.container}>
+                        <FormControl className={styles.form}>
+                            <InputLabel classes={{root: classes.InputLabelRoot}} id={'city'}>请选择城市</InputLabel>
+                            <Select value={selectedCity ? selectedCity : cities[0].id}
+                                    classes={{root: classes.InputBaseRoot}} labelId={'city'}
+                                    onChange={handleCityChange}>
+                                {cities.map(({id, city}) => (
+                                    <MenuItem key={id} value={id}>{city}</MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                    </Grid>
+                    <Grid item xs={4} className={styles.container} >
+                        <Button variant="contained" className={styles.resetButton} classes={{label: classes.ButtonRootLabel}} endIcon={<ReplayIcon/>}>重置</Button>
+                    </Grid>
+                </Header>
+                <TableContainer className={styles.tableContainer}>
+                    <Table stickyHeader>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell align={'center'}>省份</TableCell>
+                                <TableCell align={'center'}>城市</TableCell>
+                                <TableCell align={'center'}>地址</TableCell>
+                                <TableCell align={'center'}>电话</TableCell>
+                                <TableCell align={'center'}>营业时间</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {dealers.map(({id, province, city, address, phone, biz_hour}) => (
+                                <TableRow key={id} className={styles.tableContents}>
+                                    <TableCell align={'center'}>{province}</TableCell>
+                                    <TableCell align={'center'}>{city}</TableCell>
+                                    <TableCell align={'center'}>{address}</TableCell>
+                                    <TableCell align={'center'}>{phone}</TableCell>
+                                    <TableCell align={'center'}>{biz_hour}</TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+                {/* <TablePagination count={} onChangePage={} page={} rowsPerPage={}/> */}
+            </>
+        )
     }
 
-    const getCities = {
-        url:'http://localhost:3000/api/dealers/city'
-    }
-    const provincesList = await axios(getProvinces).then(response =>{
-        console.log('res.provinces',response.data)
-        return response.data
-    })
 
-    const citiesList = await axios(getCities).then(response =>{
-        console.log('res.cities',response.data)
-        return response.data
-    })
-    return {
-        props:{
-            provincesList
-        }
-    }
 }

@@ -9,3 +9,18 @@
   display: flex;
   justify-content: center;
 }
+
+.tableContainer {
+  margin-top: 70px;
+}
+
+.tableContents {
+  text-align: center;
+}
+
+.form {
+  width: 100%;
+}
+.resetButton {
+  width: 40%;
+}
