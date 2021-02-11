@@ -1,0 +1,30 @@
+.header {
+    height: 10vh;
+    justify-content: center;
+    max-height: 70px;
+    min-height: 60px;
+}
+
+.logoContainer {
+    background-color: #FFF;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    height: 100%;
+}
+
+.container {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.logo {
+    margin: auto;
+    max-width: 100px;
+    width: 100%;
+}
+
+.logoutButton {
+    width: 85%;
+}

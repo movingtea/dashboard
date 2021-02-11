@@ -2,21 +2,24 @@ import React, {useEffect, useState} from 'react';
 import ReplayIcon from '@material-ui/icons/Replay';
 import Header from "../components/Header/Header";
 import {
+    Button,
     FormControl,
     Grid,
-    TableCell,
-    TableBody,
-    TableContainer,
-    TableRow,
-    TableHead,
+    InputLabel,
+    makeStyles,
+    MenuItem,
+    Select,
     Table,
-    Tab,
-    TablePagination, Select, InputLabel, makeStyles, MenuItem, Button,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
 } from "@material-ui/core";
 import styles from "../styles/Home.module.css";
 import axios from "axios";
 import Head from "next/head";
-import Link from "next/link";
+import Router from "next/router";
 
 const useStyle = makeStyles({
     InputLabelRoot: {
@@ -43,7 +46,7 @@ export default function Index() {
     const [dealers, setDealers] = useState();
     const [isLoading, setIsLoading] = useState(true)
 
-    useEffect(() => {
+    async function getData() {
         const updateCity = axios(endpointCity)
         const updateDealers = axios(endpointDealerInfo)
         const updateProvinces = axios(endpointProvince)
@@ -54,6 +57,10 @@ export default function Index() {
             setProvinces(response[2].data)
             setIsLoading(false)
         })
+    }
+
+    useEffect(() => {
+        getData()
     }, [])
 
     async function handleProvinceChange(e) {
@@ -90,6 +97,16 @@ export default function Index() {
         })
     }
 
+    async function handleClick() {
+        getData()
+        setSelectedProvince(undefined)
+    }
+
+    function logoClick(e) {
+        e.preventDefault()
+        Router.reload(window.location.pathname)
+    }
+
     if (isLoading) {
         return <div>Loading...</div>
     } else {
@@ -100,7 +117,7 @@ export default function Index() {
                 </Head>
                 <Header>
                     <Grid item xs={2} className={styles.container}>
-                        <img src={'/vercel.svg'} className={styles.logo}/>
+                        <img src={'/vercel.svg'} className={styles.logo} onClick={logoClick}/>
                     </Grid>
                     <Grid item xs={3} className={styles.container}>
                         <FormControl className={styles.form}>
@@ -127,8 +144,10 @@ export default function Index() {
                             </Select>
                         </FormControl>
                     </Grid>
-                    <Grid item xs={4} className={styles.container} >
-                        <Button variant="contained" className={styles.resetButton} classes={{label: classes.ButtonRootLabel}} endIcon={<ReplayIcon/>}>重置</Button>
+                    <Grid item xs={4} className={styles.container}>
+                        <Button variant="contained" className={styles.resetButton}
+                                classes={{label: classes.ButtonRootLabel}} endIcon={<ReplayIcon/>}
+                                onClick={handleClick}>重置</Button>
                     </Grid>
                 </Header>
                 <TableContainer className={styles.tableContainer}>

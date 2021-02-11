@@ -4,7 +4,8 @@ module.exports = {
         'MYSQL_PORT': '3306',
         'MYSQL_DB': 'next_test',
         'MYSQL_USER': 'next',
-        'MYSQL_PW': 'kakuryou4liye'
+        'MYSQL_PW': 'kakuryou4liye',
+        'YAKULT_DB': 'yakult_cny_2021',
     },
     webpack: (config, { isServer }) => {
         // Fixes npm packages that depend on `fs` module

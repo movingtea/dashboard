@@ -11,23 +11,27 @@
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS = @@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS = 0 */;
+/*!40101 SET @OLD_SQL_MODE = @@SQL_MODE, SQL_MODE = 'NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES = @@SQL_NOTES, SQL_NOTES = 0 */;
 
 --
 -- Table structure for table `dealers_province`
 --
 
 DROP TABLE IF EXISTS `dealers_province`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `dealers_province` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `province` varchar(45) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `province_UNIQUE` (`province`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET @saved_cs_client = @@character_set_client */;
+/*!50503 SET character_set_client = utf8 */;
+CREATE TABLE `dealers_province`
+(
+    `id`       int unsigned NOT NULL AUTO_INCREMENT,
+    `province` varchar(45)  NOT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `province_UNIQUE` (`province`)
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 5
+  DEFAULT CHARSET = utf8
+  COLLATE = utf8_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -35,9 +39,15 @@ CREATE TABLE `dealers_province` (
 --
 
 LOCK TABLES `dealers_province` WRITE;
-/*!40000 ALTER TABLE `dealers_province` DISABLE KEYS */;
-INSERT INTO `dealers_province` VALUES (2,'上海市'),(3,'北京市'),(4,'山东省'),(1,'辽宁省');
-/*!40000 ALTER TABLE `dealers_province` ENABLE KEYS */;
+/*!40000 ALTER TABLE `dealers_province`
+    DISABLE KEYS */;
+INSERT INTO `dealers_province`
+VALUES (2, '上海市'),
+       (3, '北京市'),
+       (4, '山东省'),
+       (1, '辽宁省');
+/*!40000 ALTER TABLE `dealers_province`
+    ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
