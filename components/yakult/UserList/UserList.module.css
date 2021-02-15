@@ -1,0 +1,37 @@
+.avatar {
+    width: 30px;
+    height: 30px;
+}
+
+.avatarContainer {
+    width: 35px;
+    height: 35px
+}
+
+.notStarted {
+    background: red;
+    color: #FFF;
+}
+
+.notClaimed {
+    background: yellow;
+    color: #000;
+}
+
+.sent {
+    background: #008000;
+    color: #FFF;
+}
+
+.status {
+    font-size: 0.75rem;
+    display: inline-flex;
+    height: 2em;
+    justify-content: center;
+    line-height: 1.5;
+    padding-left: .75em;
+    padding-right: .75em;
+    white-space: nowrap;
+    align-items: center;
+    border-radius: 4px;
+}

@@ -1,26 +1,19 @@
 import Header from "../components/yakult/Header/Header";
 import Head from "next/head";
 import PropTypes from 'prop-types';
-//import {FormControl, Grid, InputLabel, MenuItem, Select, Typography} from "@material-ui/core";
 import styles from "../styles/yakult.module.css";
 import React, {useState} from "react";
-//import Button from "@material-ui/core/Button";
 import {Container, Paper, Tab, Tabs} from "@material-ui/core";
-//import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import DataOverview from "../components/yakult/DataOverview/DataOverview";
 import RewardsOverview from "../components/yakult/RewardsOverview/RewardsOverview";
+import UserList from "../components/yakult/UserList/UserList";
 
-/* const useStyle = makeStyles({
-    ButtonRootLable: {
-        fontSize: '1.2em',
-    },
-}) */
 
 function TabPanel(props) {
     const {children, value, index, ...other} = props;
 
     return (
-        <Container>
+        <Container style={{padding: '0'}}>
             <div
                 role="tabpanel"
                 hidden={value !== index}
@@ -50,7 +43,6 @@ function a11yProps(index) {
 }
 
 export default function Yakult() {
-    //const classes = useStyle()
     const [value, setValue] = useState(0);
     const handleChange = (event, newValue) => {
         setValue(newValue)
@@ -76,7 +68,7 @@ export default function Yakult() {
                 <RewardsOverview/>
             </TabPanel>
             <TabPanel value={value} index={1} className={styles.tabPanel}>
-                Item two
+                <UserList/>
             </TabPanel>
             <TabPanel value={value} index={2}>
                 Item three
