@@ -41,15 +41,12 @@ export default function DataOverview() {
     const [isLoading, setIsLoading] = useState(true);
 
     async function getData() {
-        const getUserData = axios('./api/yakult/userinfo')
-        const getQrCodes = axios('./api/yakult/qrcodes')
-        const getRewardUser = axios('./api/yakult/rewardsinfo')
-        axios.all([getUserData, getQrCodes, getRewardUser]).then(response => {
-            setTotalUserCount(response[0].data.meta.totalCount)
-            setTotalUsedCodeCount(response[1].data.meta.totalCount)
-            setAverageTime(response[1].data.meta.averageTime)
-            setTotalRewardsSent(response[2].data.meta.sentRewards)
-            setTotalRewardsClaimed(response[2].data.meta.claimedRewards)
+        axios('./api/yakult/data-overview').then(response => {
+            setAverageTime(response.data.avgTime)
+            setTotalUserCount(response.data.userCount)
+            setTotalUsedCodeCount(response.data.usedQRCodesCount)
+            setTotalRewardsSent(response.data.sentRewards)
+            setTotalRewardsClaimed(response.data.claimedRewards)
             setIsLoading(false)
         })
     }

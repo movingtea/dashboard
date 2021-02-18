@@ -22,6 +22,7 @@ import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
 import {Line} from "react-chartjs-2";
+//import TablePaginationActions from "@material-ui/core/TablePagination/TablePaginationActions";
 
 
 const useStyle = makeStyles({
@@ -50,58 +51,58 @@ const useStyles1 = makeStyles((theme) => ({
     },
 }));
 
-function TablePaginationActions(props) {
-    const classes = useStyles1();
-    const theme = useTheme();
-    const {count, page, rowsPerPage, onChangePage} = props;
-
-    const handleFirstPageButtonClick = (event) => {
-        onChangePage(event, 0);
-    };
-
-    const handleBackButtonClick = (event) => {
-        onChangePage(event, page - 1);
-    };
-
-    const handleNextButtonClick = (event) => {
-        onChangePage(event, page + 1);
-    };
-
-    const handleLastPageButtonClick = (event) => {
-        onChangePage(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
-    };
-
-    return (
-        <div className={classes.root}>
-            <IconButton
-                onClick={handleFirstPageButtonClick}
-                disabled={page === 0}
-                aria-label="first page"
-            >
-                {theme.direction === 'rtl' ? <LastPageIcon/> : <FirstPageIcon/>}
-            </IconButton>
-            <IconButton onClick={handleBackButtonClick} disabled={page === 0} aria-label="previous page">
-                {theme.direction === 'rtl' ? <KeyboardArrowRight/> : <KeyboardArrowLeft/>}
-            </IconButton>
-            <IconButton
-                onClick={handleNextButtonClick}
-                disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-                aria-label="next page"
-            >
-                {theme.direction === 'rtl' ? <KeyboardArrowLeft/> : <KeyboardArrowRight/>}
-            </IconButton>
-            <IconButton
-                onClick={handleLastPageButtonClick}
-                disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-                aria-label="last page"
-            >
-                {theme.direction === 'rtl' ? <FirstPageIcon/> : <LastPageIcon/>}
-            </IconButton>
-        </div>
-    );
-}
-
 export default function UserList() {
+    function TablePaginationActions(props) {
+        const classes = useStyles1();
+        const theme = useTheme();
+        const {count, page, rowsPerPage, onChangePage} = props;
+
+        const handleFirstPageButtonClick = (event) => {
+            onChangePage(event, 0);
+        };
+
+        const handleBackButtonClick = (event) => {
+            onChangePage(event, page - 1);
+        };
+
+        const handleNextButtonClick = (event) => {
+            onChangePage(event, page + 1);
+        };
+
+        const handleLastPageButtonClick = (event) => {
+            onChangePage(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
+        };
+
+        return (
+            <div className={classes.root}>
+                <IconButton
+                    onClick={handleFirstPageButtonClick}
+                    disabled={page === 0}
+                    aria-label="first page"
+                >
+                    {theme.direction === 'rtl' ? <LastPageIcon/> : <FirstPageIcon/>}
+                </IconButton>
+                <IconButton onClick={handleBackButtonClick} disabled={page === 0} aria-label="previous page">
+                    {theme.direction === 'rtl' ? <KeyboardArrowRight/> : <KeyboardArrowLeft/>}
+                </IconButton>
+                <IconButton
+                    onClick={handleNextButtonClick}
+                    disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+                    aria-label="next page"
+                >
+                    {theme.direction === 'rtl' ? <KeyboardArrowLeft/> : <KeyboardArrowRight/>}
+                </IconButton>
+                <IconButton
+                    onClick={handleLastPageButtonClick}
+                    disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+                    aria-label="last page"
+                >
+                    {theme.direction === 'rtl' ? <FirstPageIcon/> : <LastPageIcon/>}
+                </IconButton>
+            </div>
+        );
+    }
+
     const classes = useStyle();
     const [userList, setUserList] = useState();
     const [isLoading, setIsLoading] = useState(true);
@@ -110,8 +111,14 @@ export default function UserList() {
     const [date, setDate] = useState()
     const [scanCount, setScanCount] = useState()
 
+
     async function getData() {
-        const getUserData = axios('./api/yakult/userinfo')
+        const getUserData = axios('./api/yakult/userinfo', {
+            params: {
+                rowsPerPage: rowsPerPage,
+                page: page + 1
+            }
+        })
         const getDailyScan = axios('./api/yakult/charts')
         axios.all([getUserData, getDailyScan]).then(response => {
             setUserList(response[0].data.data)
@@ -148,6 +155,7 @@ export default function UserList() {
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
+        console.log(page)
     };
 
     const handleChangeRowsPerPage = (event) => {

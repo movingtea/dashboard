@@ -44,11 +44,15 @@ export default async function getUserInfo(req, res) {
         const userCount = await UserCount().then(response => {
             return response[0].count
         })
+
         res.status(200)
         res.send({
             data: userData,
             meta: {
                 totalCount: userCount,
+                rowsPerPage: req.query.rowsPerPage,
+                pageCount: Math.ceil(userCount / req.query.rowsPerPage),
+                page: req.query.page
             }
         })
         res.end

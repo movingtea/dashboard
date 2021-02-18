@@ -2,7 +2,7 @@
 --
 -- Host: localhost    Database: yakult_cny_2021
 -- ------------------------------------------------------
--- Server version	5.5.65-MariaDB
+-- Server version	5.7.29-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT = @@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS = @@CHARACTER_SET_RESULTS */;
@@ -59,4 +59,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION = @OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES = @OLD_SQL_NOTES */;
 
--- Dump completed on 2021-02-15 22:35:47
+-- Dump completed on 2021-02-19  0:31:02

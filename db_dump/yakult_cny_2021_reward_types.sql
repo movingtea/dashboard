@@ -2,7 +2,7 @@
 --
 -- Host: localhost    Database: yakult_cny_2021
 -- ------------------------------------------------------
--- Server version	5.5.65-MariaDB
+-- Server version	5.7.29-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT = @@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS = @@CHARACTER_SET_RESULTS */;
@@ -46,10 +46,10 @@ LOCK TABLES `reward_types` WRITE;
 /*!40000 ALTER TABLE `reward_types`
     DISABLE KEYS */;
 INSERT INTO `reward_types`
-VALUES (1, '扫地机器人', 0, 2, 'Physical', '2021-01-27 11:02:34', '2021-02-02 13:50:03'),
-       (2, '京东E卡', 541, 143, 'JdCode', '2021-01-27 11:02:34', '2021-02-15 09:21:25'),
-       (3, '红包', 138159, 41841, 'RedPocket', '2021-01-27 11:02:34', '2021-02-15 14:35:23'),
-       (4, '壁纸', 91686, 27615, 'Image', '2021-01-27 11:02:34', '2021-02-15 14:33:18');
+VALUES (1, '扫地机器人', 13, 2, 'Physical', '2021-01-27 11:02:34', '2021-02-02 13:50:03'),
+       (2, '京东E卡', 527, 157, 'JdCode', '2021-01-27 11:02:34', '2021-02-18 08:00:08'),
+       (3, '红包', 134417, 45583, 'RedPocket', '2021-01-27 11:02:34', '2021-02-18 16:24:41'),
+       (4, '壁纸', 89163, 30138, 'Image', '2021-01-27 11:02:34', '2021-02-18 16:24:17');
 /*!40000 ALTER TABLE `reward_types`
     ENABLE KEYS */;
 UNLOCK TABLES;
@@ -63,4 +63,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION = @OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES = @OLD_SQL_NOTES */;
 
--- Dump completed on 2021-02-15 22:35:29
+-- Dump completed on 2021-02-19  0:30:59
