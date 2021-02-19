@@ -1,7 +1,12 @@
 import {
     CircularProgress,
-    Container,
+    Collapse,
+    Divider,
     IconButton,
+    List,
+    ListItem,
+    ListItemIcon,
+    ListItemText,
     makeStyles,
     Paper,
     Table,
@@ -14,6 +19,7 @@ import {
     TableRow,
     useTheme
 } from "@material-ui/core";
+import Pagination from '@material-ui/lab/Pagination';
 import React, {useEffect, useState} from "react";
 import axios from "axios";
 import styles from './UserList.module.css';
@@ -22,8 +28,11 @@ import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
 import {Line} from "react-chartjs-2";
+import ShowChartIcon from '@material-ui/icons/ShowChart';
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import ExpandMore from '@material-ui/icons/ExpandMore';
+import TableChartIcon from '@material-ui/icons/TableChart';
 //import TablePaginationActions from "@material-ui/core/TablePagination/TablePaginationActions";
-import Pagination from 'next-pagination'
 
 
 const useStyle = makeStyles({
@@ -43,6 +52,10 @@ const useStyle = makeStyles({
         display: 'block',
         marginTop: '10px'
     },
+    UserListContainer: {
+        marginTop: '20px',
+        marginBottom: '20px'
+    }
 })
 
 const useStyles1 = makeStyles((theme) => ({
@@ -112,6 +125,16 @@ export default function UserList() {
     const [date, setDate] = useState()
     const [scanCount, setScanCount] = useState()
     const [totalPage, setTotalPage] = useState()
+    const [openChart, setOpenChart] = useState(true)
+    const [openTable, setOpenTable] = useState(true)
+
+    function handleExpandChart() {
+        setOpenChart(!openChart)
+    }
+
+    function handleExpandTable() {
+        setOpenTable(!openTable)
+    }
 
 
     async function getData() {
@@ -145,6 +168,9 @@ export default function UserList() {
     }
 
     const chartOptions = {
+        legend: {
+            position: 'bottom',
+        },
         scales: {
             yAxes: [
                 {
@@ -195,48 +221,70 @@ export default function UserList() {
             </TableRow>
         ))
         return (
-            <Container>
-                <Line data={chartData} options={chartOptions}/>
-                <TableContainer component={Paper}>
-                    <Table>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell classes={{root: classes.TableCellBorder}}>头像</TableCell>
-                                <TableCell classes={{root: classes.TableCellBorder}}>昵称</TableCell>
-                                <TableCell classes={{root: classes.TableCellBorder}}>OpenId</TableCell>
-                                <TableCell classes={{root: classes.TableCellBorder}}>QR 码</TableCell>
-                                <TableCell classes={{root: classes.TableCellBorder}}>扫码时间</TableCell>
-                                <TableCell classes={{root: classes.TableCellBorder}}>奖励</TableCell>
-                                <TableCell classes={{root: classes.TableCellBorder}}>状态</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {(rowsPerPage > 0 ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : rows)}
-                        </TableBody>
-                        <TableFooter>
-                            <TableRow>
-                                <TablePagination
-                                    rowsPerPageOptions={[20, 30, 50, {label: '全部', value: -1}]}
-                                    colSpan={7}
-                                    count={userList.length}
-                                    rowsPerPage={rowsPerPage}
-                                    page={page}
-                                    SelectProps={{
-                                        inputProps: {'aria-label': '每页显示'},
-                                        native: true,
-                                    }}
-                                    onChangePage={handleChangePage}
-                                    onChangeRowsPerPage={handleChangeRowsPerPage}
-                                    ActionsComponent={TablePaginationActions}
-                                />
-                            </TableRow>
-                        </TableFooter>
-                    </Table>
-                </TableContainer>
-                <div>
-                    <Pagination total={totalPage} size={[20,50,100]}/>
-                </div>
-            </Container>
+            <>
+                <List component={Paper}>
+                    <ListItem button onClick={handleExpandChart}>
+                        <ListItemIcon>
+                            <ShowChartIcon/>
+                        </ListItemIcon>
+                        <ListItemText primary={'每日扫码次数'}/>
+                        {openChart ? <ExpandLess/> : <ExpandMore/>}
+                    </ListItem>
+                    <Collapse in={openChart} timeout={'auto'} unmountOnExit>
+                        <Line data={chartData} options={chartOptions}/>
+                    </Collapse>
+                </List>
+
+                <List component={Paper} classes={{root: classes.UserListContainer}}>
+                    <ListItem button onClick={handleExpandTable}>
+                        <ListItemIcon>
+                            <TableChartIcon/>
+                        </ListItemIcon>
+                        <ListItemText primary={'扫码用户列表'}/>
+                        {openTable ? <ExpandMore/> : <ExpandLess/>}
+                    </ListItem>
+                    {!openTable ? <Divider/> : <></>}
+                    <Collapse in={!openTable} timeout={'auto'} unmountOnExit>
+                        <TableContainer>
+                            <Table>
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell classes={{root: classes.TableCellBorder}}>头像</TableCell>
+                                        <TableCell classes={{root: classes.TableCellBorder}}>昵称</TableCell>
+                                        <TableCell classes={{root: classes.TableCellBorder}}>OpenId</TableCell>
+                                        <TableCell classes={{root: classes.TableCellBorder}}>QR 码</TableCell>
+                                        <TableCell classes={{root: classes.TableCellBorder}}>扫码时间</TableCell>
+                                        <TableCell classes={{root: classes.TableCellBorder}}>奖励</TableCell>
+                                        <TableCell classes={{root: classes.TableCellBorder}}>状态</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {(rowsPerPage > 0 ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : rows)}
+                                </TableBody>
+                                <TableFooter>
+                                    <TableRow>
+                                        <TablePagination
+                                            rowsPerPageOptions={[20, 30, 50, {label: '全部', value: -1}]}
+                                            colSpan={7}
+                                            count={userList.length}
+                                            rowsPerPage={rowsPerPage}
+                                            page={page}
+                                            SelectProps={{
+                                                inputProps: {'aria-label': '每页显示'},
+                                                native: true,
+                                            }}
+                                            onChangePage={handleChangePage}
+                                            onChangeRowsPerPage={handleChangeRowsPerPage}
+                                            ActionsComponent={TablePaginationActions}
+                                        />
+                                    </TableRow>
+                                </TableFooter>
+                            </Table>
+                        </TableContainer>
+                        <Pagination count={totalPage} shape={'rounded'}/>
+                    </Collapse>
+                </List>
+            </>
         )
     }
 }

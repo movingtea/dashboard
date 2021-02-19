@@ -3,8 +3,8 @@ import {GetUserReward, UserCount, UserInfo} from "../../../lib/yakult/userInfo";
 export default async function getUserInfo(req, res) {
     try {
         const userData = await UserInfo().then(response => {
+            console.log('started', new Date())
             response.map(item => {
-                const created_at = new Date(item.created_at).toLocaleString('chinese', {hour12: false})
                 if (item.burnt === 1) {
                     GetUserReward(item.id).then(response => {
                         response.map(status => {
@@ -36,14 +36,13 @@ export default async function getUserInfo(req, res) {
                     item.rewardType = null
                     item.rewardStatus = '未抽奖'
                 }
-                item.created_at = created_at
+                item.created_at = new Date(item.created_at).toLocaleString('chinese', {hourCycle: 'h23'})
             })
             return response
         })
         const userCount = await UserCount().then(response => {
             return response[0].count
         })
-
         res.status(200)
         res.send({
             data: userData,
@@ -55,6 +54,7 @@ export default async function getUserInfo(req, res) {
             }
         })
         res.end
+        console.log('end', new Date())
     } catch (e) {
         console.log(e)
     }

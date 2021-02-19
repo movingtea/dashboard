@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.3.11",
+    "@material-ui/lab": "^4.0.0-alpha.57",
     "babel-plugin-styled-components": "^1.12.0",
     "chart.js": "^2.9.4",
     "graphql": "^15.5.0",
