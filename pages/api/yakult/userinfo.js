@@ -30,7 +30,6 @@ export default async function getUserInfo(req, res) {
                                     item.rewardStatus = '未完成';
                                     break;
                             }
-                            //item.rewardStatus = status.sent
                         })
                     })
                 } else {

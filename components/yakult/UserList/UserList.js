@@ -23,6 +23,7 @@ import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
 import {Line} from "react-chartjs-2";
 //import TablePaginationActions from "@material-ui/core/TablePagination/TablePaginationActions";
+import Pagination from 'next-pagination'
 
 
 const useStyle = makeStyles({
@@ -110,6 +111,7 @@ export default function UserList() {
     const [page, setPage] = useState(0)
     const [date, setDate] = useState()
     const [scanCount, setScanCount] = useState()
+    const [totalPage, setTotalPage] = useState()
 
 
     async function getData() {
@@ -124,6 +126,7 @@ export default function UserList() {
             setUserList(response[0].data.data)
             setDate(response[1].data.labels)
             setScanCount(response[1].data.counts)
+            setTotalPage(response[0].data.meta.pageCount)
             setIsLoading(false)
         })
     }
@@ -230,6 +233,9 @@ export default function UserList() {
                         </TableFooter>
                     </Table>
                 </TableContainer>
+                <div>
+                    <Pagination total={totalPage} size={[20,50,100]}/>
+                </div>
             </Container>
         )
     }
