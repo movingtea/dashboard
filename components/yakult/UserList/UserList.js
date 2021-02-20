@@ -202,7 +202,7 @@ export default function UserList() {
             <CircularProgress classes={{root: classes.CircularProgress}} size={'5rem'}/>
         </div>)
     } else {
-        const rows = userList.map(({id, avatar, nickname, open_id, code, rewardType, rewardStatus, created_at}) => (
+        const rows = userList.map(({id, avatar, nickname, open_id, code, reward_name, status, created_at}) => (
             <TableRow key={id}>
                 <TableCell classes={{root: classes.DataCell}}>
                     <img src={avatar} className={styles.avatar} alt={'微信头像'}/>
@@ -211,11 +211,11 @@ export default function UserList() {
                 <TableCell classes={{root: classes.DataCell}}>{open_id}</TableCell>
                 <TableCell classes={{root: classes.DataCell}}>{code}</TableCell>
                 <TableCell classes={{root: classes.DataCell}}>{created_at}</TableCell>
-                <TableCell classes={{root: classes.DataCell}}>{rewardType}</TableCell>
+                <TableCell classes={{root: classes.DataCell}}>{reward_name}</TableCell>
                 <TableCell classes={{root: classes.DataCell}}>
                 <span
-                    className={`${styles.status} ${rewardStatus === '未抽奖' ? styles.notStarted : (rewardStatus === '未完成' ? styles.notClaimed : styles.sent)}`}>
-                    {rewardStatus}
+                    className={`${styles.status} ${status === '未抽奖' ? styles.notStarted : (status === '未完成' ? styles.notClaimed : styles.sent)}`}>
+                    {status}
                 </span>
                 </TableCell>
             </TableRow>
