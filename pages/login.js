@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import styles from '../styles/Home.module.css';
+import styles from '../styles/login.module.css';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Switch from '@material-ui/core/Switch';
@@ -88,7 +88,6 @@ export default function Home() {
                         <Button className={styles.login_button} variant={'contained'} color={'primary'}
                         >登录</Button>
                     </div>
-
                 </div>
             </div>
         </>

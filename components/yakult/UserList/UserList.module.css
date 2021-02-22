@@ -35,3 +35,8 @@
     align-items: center;
     border-radius: 4px;
 }
+
+.form {
+    width: 40%;
+    text-align: right;
+}

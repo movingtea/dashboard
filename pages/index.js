@@ -85,12 +85,10 @@ export default function Index() {
     }
 
     async function handleCityChange(e) {
-        const selectedValue = e.target.value
-        console.log(selectedValue)
-        setSelectedCity(selectedValue)
+        setSelectedCity(e.target.value)
         await axios(endpointDealerInfo, {
             params: {
-                cityId: selectedValue
+                cityId: e.target.value
             }
         }).then(response => {
             setDealers(response.data)
@@ -117,7 +115,7 @@ export default function Index() {
                 </Head>
                 <Header>
                     <Grid item xs={2} className={styles.container}>
-                        <img src={'/vercel.svg'} className={styles.logo} onClick={logoClick}/>
+                        <img src={'/vercel.svg'} className={styles.logo} onClick={logoClick} alt={'logo'}/>
                     </Grid>
                     <Grid item xs={3} className={styles.container}>
                         <FormControl className={styles.form}>
@@ -174,7 +172,6 @@ export default function Index() {
                         </TableBody>
                     </Table>
                 </TableContainer>
-                {/* <TablePagination count={} onChangePage={} page={} rowsPerPage={}/> */}
             </>
         )
     }

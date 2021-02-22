@@ -12,6 +12,7 @@
     "@material-ui/lab": "^4.0.0-alpha.57",
     "babel-plugin-styled-components": "^1.12.0",
     "chart.js": "^2.9.4",
+    "csrf": "^3.1.0",
     "graphql": "^15.5.0",
     "moment": "^2.29.1",
     "next": "10.0.6",

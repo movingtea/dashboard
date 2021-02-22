@@ -1,15 +1,17 @@
-import {GetUserReward, GetUsersScans, UserCount, UserInfo} from '../../../lib/yakult/userInfo';
+import {GetUsersScans, TotalScannedCount} from '../../../lib/yakult/userInfo';
 
 export default async function getUserInfo(req, res) {
+    const rowsPerPage = req.query.rowsPerPage
+    const offset = req.query.offset
     try {
-        console.log('started', new Date());
-        const userData = await GetUsersScans().then(response => {
+        const userData = await GetUsersScans(rowsPerPage, offset).then(response => {
+            //console.log(response)
             response.map(row => {
-                row.created_at = new Date(row.scanned_at).toLocaleString('chinese', {hourCycle: 'h23'});
+                row.scanned_at = new Date(row.scanned_at).toLocaleString('chinese', {hourCycle: 'h23'});
             });
             return response;
         });
-        const userCount = await UserCount().then(response => {
+        const userCount = await TotalScannedCount().then(response => {
             return response[0].count
         });
         res.status(200);
@@ -23,7 +25,6 @@ export default async function getUserInfo(req, res) {
             }
         });
         res.end;
-        console.log('end', new Date())
     } catch (e) {
         console.log(e)
     }
