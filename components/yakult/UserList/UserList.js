@@ -161,7 +161,6 @@ export default function UserList() {
                 offset: 0
             }
         }).then(response => {
-
             setTotalPage(response.data.meta.pageCount)
             setUserList(response.data.data)
             setIsLoading(false)
@@ -284,7 +283,6 @@ export default function UserList() {
                                 />
                             </Grid>
                         </Grid>
-
                     </Collapse>
                 </List>
             </>
